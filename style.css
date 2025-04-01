@@ -101,6 +101,10 @@ body{
     width: 60%;
     margin: auto;
     display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 10;
+    top: 20px;
 }
 
 #pesquisa-pokemon{
@@ -109,4 +113,34 @@ body{
     content: none;
     text-align: center;
     padding: 10px;
+}
+
+
+.lista-pesq{
+    list-style: none;
+    background-color: rgba(0, 0, 0, 0.424);
+    color: white;
+}
+
+.item-poke{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 10px;
+    max-height: 40px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.item-poke:hover{
+    background-color: rgba(255, 255, 255, 0.303);
+}
+
+.nome-pesq{
+    font-size: 1.2em;
+}
+.poke-img-pesq{
+    height: 40px;
+    width: 40px;
+
 }

@@ -13,8 +13,11 @@ const fotPoke1 = document.querySelector('#fot1')
 const fotPoke2 = document.querySelector('#fot2')
 const fotPoke3 = document.querySelector('#fot3')
 const fotPoke4 = document.querySelector('#fot4')
+const pesqPoke = document.querySelector('#pesquisa-pokemon')
+const boxPesq = document.querySelector('#box-pesquisa')
+const listaP = document.querySelector('.lista-pesq')
 
-contador = 0
+let contador = 0
 
 async function getPoke() {
     const url = `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
@@ -28,10 +31,56 @@ async function getPoke() {
         const json = await response.json()
         const lista = json.results
         await modificaPoke(lista[contador].name)
+        
+
+        await pesqPoke.addEventListener('keyup',async ()=>{
+            let listaF = []
+            listaP.innerHTML = ''
+            if(!pesqPoke.value){
+                console.log('vazio')
+                listaP.innerHTML = ''
+            }else{
+                let listaPokes = []
+            for(pokemon in lista){
+                const nome = lista[pokemon].name
+               listaPokes.push(nome)
+            }
+            
+            listaF = listaPokes.filter(poke => poke.startsWith(pesqPoke.value))
+            
+            
+            for(let c = 0; c < listaF.length && c < 5;c++){
+                let teste = await buscaPoke(listaF[c])
+                listaP.innerHTML += 
+                `
+                <li onclick="Seleciona()" class="item-poke">
+                    <img class="poke-img-pesq" src="${teste[0]}" alt="1">
+                    <p class="nome-pesq">${teste[1]}</p>
+                    <p>id: <span>${teste[2]}</span></p>
+                </li>
+
+                `
+            }
+            }
+            
+        })
+        
 
     }catch(error){
-        console.log('erro: '+erro)
+        console.log('erro: '+ error)
     }
+}
+
+async function buscaPoke(nome){
+    const url = `https://pokeapi.co/api/v2/pokemon/${nome}`
+
+    const response = await fetch(url)
+    const json = await response.json()
+    const pokemon = await json
+
+    return [pokemon.sprites.front_default,pokemon.name,pokemon.id]
+  
+
 }
 
 async function modificaPoke(nome){
@@ -47,8 +96,6 @@ async function modificaPoke(nome){
     fotPoke2.src = `${pokemon.sprites.other.showdown.back_default}`
     fotPoke3.src = `${pokemon.sprites.other.dream_world.front_default}`
     fotPoke4.src = `${pokemon.sprites.other.home.front_default}`
-    console.log(pokemon.name)
-    console.log(pokemon.sprites.other)
     typePoke.innerText = `${pokemon.types['0'].type['name']}`
     hpPoke.innerText = `${pokemon.stats['0'].base_stat}`
     atkPoke.innerText =`${pokemon.stats['1'].base_stat}`
@@ -96,21 +143,34 @@ async function modificaPoke(nome){
 }
 
 
+
 btnLeft.addEventListener('click',()=>{
     contador--
     if(contador<0){
         contador = 1000
     }
-    getPoke()
 })
 
 btnRight.addEventListener('click',()=>{
     contador++
-    if(contador> 1000){
+    if(contador > 1000){
         contador = 0
     }
-    getPoke()
+
 })
 
 
+function Seleciona() {
+   pokecerto = listaP.addEventListener("click", (event)=>{
+    pokecerto = event.target.innerText
+    console.log(pokecerto)
+    modificaPoke(pokecerto)
+   })
+   
+  
+
+}
+
 getPoke()
+
+
