@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>pokemon</title>
+</head>
+<body id="tela-pokedex">
+    <div class="box-pesquisa">
+        <input type="text" placeholder="Digite o nome do pokemon" id="pesquisa-pokemon" >
+    </div>
+    <div class="window-pokedex" >
+        <div class="poke-tipo">
+            <h2 class="tipo">Tipo: <span id="tipo-t"></span></h2>
+        </div>
+        <img class="sprite-poke" src="https://toppng.com/uploads/preview/vulpix-16-bit-pokemon-sprite-115630497418jmknw0eba.png" alt="teste">
+        <h1 class="nome-pokemon">nome pokemon</h1>
+        <div class="box-button">
+            <button class="button" id="left"></button>
+            <button class="button" id="right"></button>
+        </div>
+        <ul class="stat-list">
+            <li class="stat-item">
+                <p class="stat">Hp:<span class="stat-t" id="hp">0</span></p>
+            </li>
+            <li class="stat-item">
+                <p class="stat">Atk:<span class="stat-t" id="atk">0</span></p>
+            </li>
+            <li class="stat-item">
+                <p class="stat">Def:<span class="stat-t" id="def">0</span></p>
+            </li>
+            <li class="stat-item">
+                <p class="stat">vel:<span class="stat-t" id="vel">0</span></p>
+            </li>
+        </ul>
+        <ul class="list-fotos"> 
+            <li class="item-fotos">
+                <img id="fot1" class="fotos-poke" src="teste" alt="">
+            </li>
+            <li class="item-fotos">
+                <img id="fot2" class="fotos-poke" src="teste" alt="">
+            </li>
+            <li class="item-fotos">
+                <img id="fot3" class="fotos-poke" src="teste" alt="">
+            </li>
+            <li class="item-fotos">
+                <img id="fot4" class="fotos-poke" src="teste" alt="">
+            </li>
+        </ul>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
