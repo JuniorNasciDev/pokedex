@@ -21,49 +21,21 @@ let contador = 0
 
 async function getPoke() {
     const url = `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
-
     try{
         const response = await fetch(url)
         if(!response.ok){
             throw new Error(`status da respsota: ` + response.status)
         }
-
         const json = await response.json()
         const lista = json.results
         await modificaPoke(lista[contador].name)
-        
-
-        await pesqPoke.addEventListener('keyup',async ()=>{
-            let listaF = []
-            listaP.innerHTML = ''
-            if(!pesqPoke.value){
-                console.log('vazio')
-                listaP.innerHTML = ''
-            }else{
-                let listaPokes = []
+        listaNomesPokes = []
             for(pokemon in lista){
-                const nome = lista[pokemon].name
-               listaPokes.push(nome)
+                listaNomesPokes.push(lista[pokemon].name)
             }
-            
-            listaF = listaPokes.filter(poke => poke.startsWith(pesqPoke.value))
-            
-            
-            for(let c = 0; c < listaF.length && c < 5;c++){
-                let teste = await buscaPoke(listaF[c])
-                listaP.innerHTML += 
-                `
-                <li onclick="Seleciona()" class="item-poke">
-                    <img class="poke-img-pesq" src="${teste[0]}" alt="1">
-                    <p class="nome-pesq">${teste[1]}</p>
-                    <p>id: <span>${teste[2]}</span></p>
-                </li>
-
-                `
-            }
-            }
-            
-        })
+        
+        
+        
         
 
     }catch(error){
@@ -142,13 +114,15 @@ async function modificaPoke(nome){
 
 }
 
-
-
 btnLeft.addEventListener('click',()=>{
     contador--
     if(contador<0){
         contador = 1000
     }
+    pesqPoke.removeEventListener('input',(event)=>{
+        event.preventDefault()
+    })
+    getPoke()
 })
 
 btnRight.addEventListener('click',()=>{
@@ -156,19 +130,51 @@ btnRight.addEventListener('click',()=>{
     if(contador > 1000){
         contador = 0
     }
-
+    pesqPoke.removeEventListener('input',(event)=>{
+        event.preventDefault()
+    })
+    getPoke()
 })
 
 
-function Seleciona() {
-   pokecerto = listaP.addEventListener("click", (event)=>{
-    pokecerto = event.target.innerText
-    console.log(pokecerto)
-    modificaPoke(pokecerto)
-   })
-   
-  
+pesqPoke.addEventListener('input', (event) => {
+    event.preventDefault();
+    listaF = listaNomesPokes.filter(nome => nome.startsWith(pesqPoke.value))
+    if(!pesqPoke.value){
+        console.clear()
+        console.log("vaazio")
+        listaP.innerHTML = ''
+    }else{
+        console.clear()
+        console.log(listaF)
+        listaP.innerHTML = ''
+        for (let i = 0; i < 5 && i<listaF.length; i++){
+           criaListaP(listaF[i])
+        }
+    }
+});
 
+async function EscolhePoke(){
+    modificaPoke(event.currentTarget.querySelector('p').innerText)
+    contador = event.currentTarget.querySelector('span').innerText - 1
+    pesqPoke.value = ''
+    listaP.innerHTML = ''
+
+}
+
+async function criaListaP(pokemon){
+    const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
+
+    const response = await fetch(url)
+    const json = await response.json()
+    listaP.innerHTML += 
+    `
+    <li onclick="EscolhePoke()" class="item-poke">
+    <img class="poke-img-pesq" src="${json.sprites.front_default}" alt="">
+    <p class="nome-pesq">${json.name}</p>
+    <p>id:<span>${json.id}</span></p>
+    </li>
+    `
 }
 
 getPoke()
