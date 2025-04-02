@@ -154,6 +154,23 @@ pesqPoke.addEventListener('input', (event) => {
     }
 });
 
+pesqPoke.addEventListener('change', (event) => {
+    event.preventDefault();
+    listaF = listaNomesPokes.filter(nome => nome.startsWith(pesqPoke.value))
+    if(!pesqPoke.value){
+        console.clear()
+        console.log("vaazio")
+        listaP.innerHTML = ''
+    }else{
+        console.clear()
+        console.log(listaF)
+        listaP.innerHTML = ''
+        for (let i = 0; i < 5 && i<listaF.length; i++){
+           criaListaP(listaF[i])
+        }
+    }
+});
+
 async function EscolhePoke(){
     modificaPoke(event.currentTarget.querySelector('p').innerText)
     contador = event.currentTarget.querySelector('span').innerText - 1
