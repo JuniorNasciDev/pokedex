@@ -157,7 +157,19 @@ pesqPoke.addEventListener('input', (event) => {
 
 
 pesqPoke.addEventListener("beforeinput",(event)=>{
-    alert('teste')
+    listaF = listaNomesPokes.filter(nome => nome.startsith(pesqPoke.value))
+    if(!pesqPoke.value){
+        console.clear()
+        console.log("vaazio")
+        listaP.innerHTML = ''
+    }else{
+        console.clear()
+        console.log(listaF)
+        listaP.innerHTML = ''
+        for (let i = 0; i < 5 && i<listaF.length; i++){
+           criaListaP(listaF[i])
+        }
+    }
 })
 
 async function EscolhePoke(){
