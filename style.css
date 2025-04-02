@@ -157,6 +157,7 @@ body{
     }
     .window-pokedex{
         width: 80%;
+        margin-top: 50%;
     }
     .tipo{
         width: 100%;
